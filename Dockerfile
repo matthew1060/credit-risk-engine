@@ -8,6 +8,6 @@ RUN pip install --no-cache-dir -r requirements_hf.txt
 COPY models/ ./models/
 COPY src/ ./src/
 
-EXPOSE 8501
+EXPOSE 7860
 
-CMD ["streamlit", "run", "src/dashboard/app_standalone.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "src/dashboard/app_standalone.py", "--server.port=7860", "--server.address=0.0.0.0", "--server.headless=true"]
