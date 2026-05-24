@@ -47,20 +47,19 @@ A commercial bank processing 10,000 loan applications per month spends approxima
 ## Project Structure
 ```
 credit-risk-engine/
-├── data/                    # Raw and processed data (gitignored)
+├── data/                    # Raw and processed data
 ├── notebooks/               # Jupyter notebooks
 │   ├── 01_data_exploration.ipynb
 │   ├── 02_data_preprocessing.ipynb
 │   └── 03_model_training.ipynb
 ├── src/
-│   ├── api/
-│   │   └── main.py          # FastAPI application
 │   └── dashboard/
-│       └── app.py           # Streamlit dashboard
-├── models/                  # Saved model artifacts (gitignored)
-├── reports/                 # Plots and visualisations
-├── requirements.txt
+│       └── app_standalone.py  # Streamlit dashboard
+├── models/                  # Saved model artifacts
+├── Dockerfile
+├── requirements_hf.txt
 └── README.md
+
 ```
 
 ## Quick Start
