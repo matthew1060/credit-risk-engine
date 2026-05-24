@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-import os
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -19,27 +18,30 @@ st.set_page_config(
 )
 
 # ============================================================
-# LOAD MODEL DIRECTLY (no API needed)
+# LOAD MODEL
 # ============================================================
 
 @st.cache_resource
 def load_model():
-    model = joblib.load('models/credit_risk_lgbm.pkl')
-    feature_cols = joblib.load('models/feature_cols.pkl')
-    explainer = joblib.load('models/shap_explainer.pkl')
-    return model, feature_cols, explainer
+    try:
+        model = joblib.load('models/credit_risk_lgbm.pkl')
+        feature_cols = joblib.load('models/feature_cols.pkl')
+        explainer = joblib.load('models/shap_explainer.pkl')
+        return model, feature_cols, explainer
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
+        st.stop()
 
 model, feature_cols, explainer = load_model()
-
 
 # ============================================================
 # PREDICTION FUNCTION
 # ============================================================
 
-def predict(revolving_util, age, monthly_income, debt_ratio, 
+def predict(revolving_util, age, monthly_income, debt_ratio,
             open_credit_lines, real_estate_loans, dependents,
             late_30_59, late_60_89, late_90):
-    
+
     total_late = late_30_59 + late_60_89 + late_90
     debt_to_income = debt_ratio / (monthly_income + 1)
 
@@ -162,10 +164,12 @@ if predict_button:
         features = [f['feature'] for f in factors]
         impacts = [f['impact'] for f in factors]
         colors = ['red' if i > 0 else 'green' for i in impacts]
-        fig2 = px.bar(x=impacts, y=features, orientation='h',
-                      color=colors,
-                      color_discrete_map={'red': '#dc3545', 'green': '#28a745'},
-                      labels={'x': 'SHAP Impact', 'y': 'Feature'})
+        fig2 = px.bar(
+            x=impacts, y=features, orientation='h',
+            color=colors,
+            color_discrete_map={'red': '#dc3545', 'green': '#28a745'},
+            labels={'x': 'SHAP Impact', 'y': 'Feature'}
+        )
         fig2.update_layout(height=300, showlegend=False)
         st.plotly_chart(fig2, use_container_width=True)
 
@@ -176,15 +180,21 @@ if predict_button:
     second_factor = factors[1]['feature']
 
     if rec == "DECLINE":
-        st.error(f"**Application Declined** — Default probability of {prob:.1%} exceeds acceptable risk threshold. "
-                f"Primary driver: **{top_factor}** (impact: {factors[0]['impact']:.2f}), "
-                f"followed by **{second_factor}** (impact: {factors[1]['impact']:.2f}).")
+        st.error(
+            f"**Application Declined** — Default probability of {prob:.1%} exceeds acceptable risk threshold. "
+            f"Primary driver: **{top_factor}** (impact: {factors[0]['impact']:.2f}), "
+            f"followed by **{second_factor}** (impact: {factors[1]['impact']:.2f})."
+        )
     elif rec == "REVIEW":
-        st.warning(f"**Manual Review Required** — Default probability of {prob:.1%} falls in the medium risk band. "
-                  f"Primary concern: **{top_factor}** (impact: {factors[0]['impact']:.2f}).")
+        st.warning(
+            f"**Manual Review Required** — Default probability of {prob:.1%} falls in the medium risk band. "
+            f"Primary concern: **{top_factor}** (impact: {factors[0]['impact']:.2f})."
+        )
     else:
-        st.success(f"**Application Approved** — Default probability of {prob:.1%} is within acceptable limits. "
-                  f"Strongest positive signal: **{top_factor}** (impact: {factors[0]['impact']:.2f}).")
+        st.success(
+            f"**Application Approved** — Default probability of {prob:.1%} is within acceptable limits. "
+            f"Strongest positive signal: **{top_factor}** (impact: {factors[0]['impact']:.2f})."
+        )
 
 else:
     st.info("👈 Enter borrower details in the sidebar and click **Assess Credit Risk** to get a prediction.")
