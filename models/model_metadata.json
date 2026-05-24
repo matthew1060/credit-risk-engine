@@ -1,0 +1,24 @@
+{
+  "model_type": "LightGBM",
+  "auc_roc_test": 0.8641,
+  "best_iteration": 151,
+  "n_features": 12,
+  "features": [
+    "RevolvingUtilizationOfUnsecuredLines",
+    "age",
+    "NumberOfTime30-59DaysPastDueNotWorse",
+    "DebtRatio",
+    "MonthlyIncome",
+    "NumberOfOpenCreditLinesAndLoans",
+    "NumberOfTimes90DaysLate",
+    "NumberRealEstateLoansOrLines",
+    "NumberOfTime60-89DaysPastDueNotWorse",
+    "NumberOfDependents",
+    "total_late_payments",
+    "debt_to_income"
+  ],
+  "scale_pos_weight": 13.96,
+  "training_samples": 104999,
+  "test_samples": 22500,
+  "default_rate_train": 0.0668
+}
