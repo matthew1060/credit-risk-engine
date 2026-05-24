@@ -42,7 +42,7 @@ A commercial bank processing 10,000 loan applications per month spends approxima
 - **CI/CD:** GitHub Actions
 
 ## Project Structure
-
+```
 credit-risk-engine/
 ├── data/                    # Raw and processed data (gitignored)
 ├── notebooks/               # Jupyter notebooks
@@ -58,6 +58,7 @@ credit-risk-engine/
 ├── reports/                 # Plots and visualisations
 ├── requirements.txt
 └── README.md
+```
 
 ## Quick Start
 
