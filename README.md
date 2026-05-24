@@ -1,3 +1,12 @@
+---
+title: Credit Risk Engine
+emoji: 🏦
+colorFrom: blue
+colorTo: red
+sdk: docker
+pinned: false
+---
+
 # Credit Risk Scoring Engine
 
 A production-grade credit risk scoring system built on 150,000 real borrower records. Predicts the probability of loan default using LightGBM with SHAP explainability, deployed as a REST API with an interactive Streamlit dashboard.
