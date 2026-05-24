@@ -24,13 +24,13 @@ st.set_page_config(
 
 @st.cache_resource
 def load_model():
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    model = joblib.load(os.path.join(base_dir, 'models', 'credit_risk_lgbm.pkl'))
-    feature_cols = joblib.load(os.path.join(base_dir, 'models', 'feature_cols.pkl'))
-    explainer = joblib.load(os.path.join(base_dir, 'models', 'shap_explainer.pkl'))
+    model = joblib.load('models/credit_risk_lgbm.pkl')
+    feature_cols = joblib.load('models/feature_cols.pkl')
+    explainer = joblib.load('models/shap_explainer.pkl')
     return model, feature_cols, explainer
 
 model, feature_cols, explainer = load_model()
+
 
 # ============================================================
 # PREDICTION FUNCTION
